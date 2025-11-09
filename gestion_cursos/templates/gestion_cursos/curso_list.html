@@ -1,0 +1,28 @@
+{% extends 'gestion_cursos/base.html' %}
+
+{% block title %}Lista de Cursos{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Cursos Disponibles</h1>
+    <a href="{% url 'curso_create' %}" class="btn btn-primary">Añadir Curso</a>
+</div>
+
+<div class="list-group">
+    {% for curso in cursos %}
+        <div class="list-group-item list-group-item-action">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{ curso.nombre }} ({{ curso.codigo }})</h5>
+                <small class="text-muted">{{ curso.creditos }} créditos</small>
+            </div>
+            <p class="mb-1">{{ curso.descripcion|truncatewords:20 }}</p>
+            <div>
+                <a href="{% url 'curso_update' pk=curso.codigo %}" class="btn btn-sm btn-warning">Editar</a>
+                <a href="{% url 'curso_delete' pk=curso.codigo %}" class="btn btn-sm btn-danger">Eliminar</a>
+            </div>
+        </div>
+    {% empty %}
+        <p class="alert alert-info">No hay cursos registrados.</p>
+    {% endfor %}
+</div>
+{% endblock %}

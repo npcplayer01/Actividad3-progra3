@@ -1,0 +1,18 @@
+{% extends 'gestion_cursos/base.html' %}
+
+{% block title %}Confirmar Eliminación{% endblock %}
+
+{% block content %}
+<div class="alert alert-danger">
+    <h2 class="alert-heading">¿Estás seguro?</h2>
+    <p>Estás a punto de eliminar el curso: <strong>{{ object.nombre }} ({{ object.codigo }})</strong></p>
+    <hr>
+    <p class="mb-0">Esta acción no se puede deshacer.</p>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+    <a href="{% url 'curso_list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

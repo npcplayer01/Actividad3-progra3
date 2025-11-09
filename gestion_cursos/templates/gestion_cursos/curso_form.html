@@ -1,0 +1,43 @@
+{% extends 'gestion_cursos/base.html' %}
+
+{% block title %}{% if object %}Editar{% else %}Crear{% endif %} Curso{% endblock %}
+
+{% block content %}
+<h2>{% if object %}Editar Curso: {{ object.nombre }}{% else %}Crear Nuevo Curso{% endif %}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="mb-3">
+        <label for="id_codigo" class="form-label">Código</label>
+        {{ form.codigo }}
+        {% if form.codigo.help_text %}<div class="form-text">{{ form.codigo.help_text }}</div>{% endif %}
+    </div>
+    <div class="mb-3">
+        <label for="id_nombre" class="form-label">Nombre</label>
+        {{ form.nombre }}
+    </div>
+    <div class="mb-3">
+        <label for="id_descripcion" class="form-label">Descripción</label>
+        {{ form.descripcion }}
+    </div>
+    <div class="mb-3">
+        <label for="id_creditos" class="form-label">Créditos</label>
+        {{ form.creditos }}
+    </div>
+    
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'curso_list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+
+<script>
+    document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(function(el) {
+        el.classList.add('form-control');
+    });
+    // El campo 'codigo' se deshabilita si estamos editando (si 'object' existe)
+    {% if object %}
+        document.getElementById('id_codigo').setAttribute('readonly', true);
+    {% endif %}
+</script>
+
+{% endblock %}
