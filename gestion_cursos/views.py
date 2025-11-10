@@ -14,7 +14,7 @@ class CursoListView(ListView):
     template_name = 'gestion_cursos/curso_list.html'
     context_object_name = 'cursos'  # Nombre para usar en el template
 
-# 2. Vista para CREAR
+# 2. Vista para crear
 class CursoCreateView(CreateView):
     model = Curso
     template_name = 'gestion_cursos/curso_form.html'
@@ -23,7 +23,7 @@ class CursoCreateView(CreateView):
     # Redirige a la lista después de crear
     success_url = reverse_lazy('curso_list')
 
-# 3. Vista para EDITAR (Actualizar)
+# 3. Vista para editar
 class CursoUpdateView(UpdateView):
     model = Curso
     template_name = 'gestion_cursos/curso_form.html'
@@ -31,7 +31,7 @@ class CursoUpdateView(UpdateView):
     fields = ['nombre', 'descripcion', 'creditos']
     success_url = reverse_lazy('curso_list')
 
-# 4. Vista para ELIMINAR
+# 4. Vista para eliminar
 class CursoDeleteView(DeleteView):
     model = Curso
     template_name = 'gestion_cursos/curso_confirm_delete.html'

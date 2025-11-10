@@ -1,5 +1,4 @@
 from django.urls import path
-# Importa todas las Vistas que creamos en el paso anterior
 from .views import (
     CursoListView,
     CursoCreateView,
