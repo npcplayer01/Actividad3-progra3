@@ -9,16 +9,16 @@
     {% csrf_token %}
     
     {% if form.non_field_errors %}
-      <div class="alert alert-danger">
+    <div class="alert alert-danger">
         {{ form.non_field_errors }}
-      </div>
+    </div>
     {% endif %}
 
     <div class="mb-3">
         <label for="id_codigo" class="form-label">Código</label>
         <input type="text" name="codigo" class="form-control" id="id_codigo"
-               value="{{ form.codigo.value|default_if_none:'' }}"
-               {% if object %}readonly{% endif %}>
+            value="{% if object %}{{ object.codigo }}{% else %}{{ form.codigo.value|default_if_none:'' }}{% endif %}"
+            {% if object %}readonly{% endif %}>
         <div class="text-danger mt-1">
             {{ form.codigo.errors }}
         </div>
@@ -27,7 +27,7 @@
     <div class="mb-3">
         <label for="id_nombre" class="form-label">Nombre</label>
         <input type="text" name="nombre" class="form-control" id="id_nombre"
-               value="{{ form.nombre.value|default_if_none:'' }}">
+            value="{{ form.nombre.value|default_if_none:'' }}">
         <div class="text-danger mt-1">
             {{ form.nombre.errors }}
         </div>
@@ -44,7 +44,7 @@
     <div class="mb-3">
         <label for="id_creditos" class="form-label">Créditos</label>
         <input type="number" name="creditos" class="form-control" id="id_creditos"
-               value="{{ form.creditos.value|default_if_none:'' }}">
+            value="{{ form.creditos.value|default_if_none:'' }}">
         <div class="text-danger mt-1">
             {{ form.creditos.errors }}
         </div>
