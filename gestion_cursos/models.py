@@ -11,7 +11,5 @@ class Curso(models.Model):
     creditos = models.IntegerField()
 
     # Este método le dice a Django cómo "mostrar" un objeto Curso
-    # (por ejemplo, en el panel de administrador).
-    # ¡Debe estar indentado DENTRO de la clase Curso!
     def __str__(self):
         return f"{self.codigo} - {self.nombre}"
