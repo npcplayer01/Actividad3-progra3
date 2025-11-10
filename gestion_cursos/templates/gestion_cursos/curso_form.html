@@ -5,25 +5,49 @@
 {% block content %}
 <h2>{% if object %}Editar Curso: {{ object.nombre }}{% else %}Crear Nuevo Curso{% endif %}</h2>
 
-<form method="post">
+<form method="post" id="curso-form">
     {% csrf_token %}
     
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
     <div class="mb-3">
         <label for="id_codigo" class="form-label">Código</label>
-        {{ form.codigo }}
-        {% if form.codigo.help_text %}<div class="form-text">{{ form.codigo.help_text }}</div>{% endif %}
+        <input type="text" name="codigo" class="form-control" id="id_codigo"
+               value="{{ form.codigo.value|default_if_none:'' }}"
+               {% if object %}readonly{% endif %}>
+        <div class="text-danger mt-1">
+            {{ form.codigo.errors }}
+        </div>
     </div>
+    
     <div class="mb-3">
         <label for="id_nombre" class="form-label">Nombre</label>
-        {{ form.nombre }}
+        <input type="text" name="nombre" class="form-control" id="id_nombre"
+               value="{{ form.nombre.value|default_if_none:'' }}">
+        <div class="text-danger mt-1">
+            {{ form.nombre.errors }}
+        </div>
     </div>
+    
     <div class="mb-3">
         <label for="id_descripcion" class="form-label">Descripción</label>
-        {{ form.descripcion }}
+        <textarea name="descripcion" class="form-control" id="id_descripcion">{{ form.descripcion.value|default_if_none:'' }}</textarea>
+        <div class="text-danger mt-1">
+            {{ form.descripcion.errors }}
+        </div>
     </div>
+    
     <div class="mb-3">
         <label for="id_creditos" class="form-label">Créditos</label>
-        {{ form.creditos }}
+        <input type="number" name="creditos" class="form-control" id="id_creditos"
+               value="{{ form.creditos.value|default_if_none:'' }}">
+        <div class="text-danger mt-1">
+            {{ form.creditos.errors }}
+        </div>
     </div>
     
     <button type="submit" class="btn btn-success">Guardar</button>
@@ -31,10 +55,43 @@
 </form>
 
 <script>
-    document.querySelectorAll('input[type="text"], input[type="number"], textarea').forEach(function(el) {
-        el.classList.add('form-control');
+    // 1. Encuentra el formulario por su 'id'
+    const form = document.getElementById('curso-form');
+
+    // 2. Añade un "oyente" para el evento 'submit' al precionar guardar
+    form.addEventListener('submit', function(event) {
+        
+        // 3. Encuentra los campos por su 'id'
+        const codigo = document.getElementById('id_codigo').value.trim();
+        const nombre = document.getElementById('id_nombre').value.trim();
+        const descripcion = document.getElementById('id_descripcion').value.trim();
+        const creditos = document.getElementById('id_creditos').value.trim();
+
+        let errores = [];
+
+        // 4. Comprueba si están vacíos
+        if (codigo === '') {
+            errores.push('El campo "Código" no puede estar vacío.');
+        }
+        if (nombre === '') {
+            errores.push('El campo "Nombre" no puede estar vacío.');
+        }
+        if (descripcion === '') {
+            errores.push('El campo "Descripción" no puede estar vacío.');
+        }
+        if (creditos === '') {
+            errores.push('El campo "Créditos" no puede estar vacío.');
+        }
+
+        // 5. Si hay errores...
+        if (errores.length > 0) {
+            // impide que el formulario se envíe
+            event.preventDefault(); 
+            
+            alert('Por favor, corrige los siguientes errores:\n\n' + errores.join('\n'));
+        }
     });
-    // El campo 'codigo' se deshabilita si estamos editando (si 'object' existe)
+
     {% if object %}
         document.getElementById('id_codigo').setAttribute('readonly', true);
     {% endif %}
